@@ -23,13 +23,6 @@ const player = (state = playerState, { type = null, payload = {} }) => {
 			};
 
 		case DISPATCHES.NEW_SONG:
-			console.error('in new song dispatcher')
-			console.error({
-				newState: {
-					...state,
-					songs: state.songs.concat(payload.newSong)
-				}
-			})
 			return {
 				...state,
 				songs: state.songs.concat(payload.newSong)

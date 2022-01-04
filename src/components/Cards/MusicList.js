@@ -22,10 +22,8 @@ const MusicList = ({
 	downloadable = false,
 	playable = true,
 	songs,
-	uri,
 	searchTerm,
 }) => {
-	console.error({uri})
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
 
 	return (
@@ -89,7 +87,7 @@ const DownloadButton = connect(mapStateToProps2, mapDispatchToProps)(
 
 			const downloadUrl = api.getDownloadUrl(searchTerm)
 			const fileUri = FileSystem.documentDirectory + id
-			console.error({downloadUrl, fileUri})
+
 			const downloadResumable = FileSystem.createDownloadResumable(
 				downloadUrl,
 				fileUri,

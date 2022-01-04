@@ -60,7 +60,6 @@ const Index = ({ songs }) => {
 									<Text style={{ fontSize: 12, color: 'rgba(0, 0, 0, .3)' }}>{error.message}</Text>
 								</View>
 							} else if (song) {
-								console.error({song})
 								return <Card.MusicList id={song.id} imageURL={song.image} title={song.name} artist={song.author} duration={song.durationMillis} downloadable playable={false} searchTerm={searchTerm} />
 							} else {
 								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
