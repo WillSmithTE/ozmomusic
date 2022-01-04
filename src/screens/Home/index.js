@@ -5,6 +5,7 @@ import { useAssets } from 'expo-asset';
 
 import { Footer, Header, Section, Drawer } from '../../widgets';
 import { Icon } from '../../components';
+import Songs from '../Songs';
 
 const Index = () => {
 	const [assets] = useAssets([require('../../assets/icons/hamburger.png'), require('../../assets/icons/search.png')]);
@@ -13,18 +14,8 @@ const Index = () => {
 	return (
 		<Drawer active={drawer} current="home" onItemPressed={() => setDrawer(false)}>
 			<SafeAreaView style={styles.container}>
-				<Header
-					options={{
-						left: {
-							children: drawer ? <Icon name="x" color="#C4C4C4" /> : <Image source={require('../../assets/icons/hamburger.png')} resizeMode="contain" />,
-							onPress: () => setDrawer(!drawer),
-						},
-					}}
-				/>
 				<View style={styles.sections}>
-					<Section.Explore />
-					<Section.Recent style={{ marginTop: 30 }} />
-					<Section.Playlist style={{ marginTop: 30 }} />
+					<Songs/>
 				</View>
 				<Footer />
 			</SafeAreaView>

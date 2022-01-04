@@ -7,3 +7,4 @@ export const FAVOURITE = 'FAVOURITE';
 export const RECENT = 'RECENT';
 export const PLAYLISTS = 'PLAYLISTS';
 export const PLAYLIST = 'PLAYLIST';
+export const TAB = 'TAB';

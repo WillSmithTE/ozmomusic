@@ -14,21 +14,6 @@ const Index = ({ songs }) => {
 	return (
 		<Drawer active={drawer} current="songs" onItemPressed={() => setDrawer(false)}>
 			<SafeAreaView style={styles.container}>
-				<Header
-					options={{
-						left: {
-							children: drawer ? <Icon name="x" color="#C4C4C4" /> : <Image source={require('../../assets/icons/hamburger.png')} resizeMode="contain" />,
-							onPress: () => setDrawer(!drawer),
-						},
-						middle: {
-							show: true,
-							text: 'All Songs',
-						},
-						right: {
-							show: false,
-						},
-					}}
-				/>
 				<View style={styles.sections}>
 					<Section.MusicList audios={songs} indicator={false} />
 				</View>

@@ -43,7 +43,7 @@ const Loading = ({ songs, dispatch, navigation: { replace } }) => {
 
 	const init = async () => {
 		await getStorage();
-		replace(SCREENS.HOME);
+		replace(SCREENS.TAB);
 	};
 
 	useEffect(() => {
