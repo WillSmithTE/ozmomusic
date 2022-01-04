@@ -11,12 +11,11 @@ export type Song = {
     uri?: string,
 }
 
-export const metadataToSong = (songMetadata: any, uri: string): Song => {
+export const metadataToSong = (songMetadata: any): Song => {
     return {
         id: `${songMetadata.extractor}:${songMetadata.id}`,
         title: songMetadata.title || songMetadata.fulltitle,
         author: songMetadata.uploader,
-        uri,
         image: songMetadata.thumbnail,
         durationMillis: songMetadata.duration * 1000,
     }

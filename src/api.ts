@@ -17,7 +17,7 @@ export const api = {
                 const json = await response.json()
                 console.debug(`songMetadata=${toString(json)}`)
 
-                const song: Song = metadataToSong(json, url)
+                const song: Song = metadataToSong(json)
                 console.debug(`song=${toString(song)}`)
                 return song
             } else {

@@ -23,6 +23,7 @@ const MusicList = ({
 	playable = true,
 	songs,
 	uri,
+	searchTerm,
 }) => {
 	console.error({uri})
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
@@ -63,7 +64,7 @@ const MusicList = ({
 						</TouchableOpacity>
 					</View>
 				}
-				{downloadable && <DownloadButton songs={songs} uri={uri} id={id} title={title} imageURL={imageURL} duration={duration} author={author}/>}
+				{downloadable && <DownloadButton songs={songs} searchTerm={searchTerm} id={id} title={title} imageURL={imageURL} duration={duration} author={author}/>}
 
 
 			</TouchableOpacity>
@@ -79,14 +80,14 @@ export default connect(mapStateToProps, null)(memo(MusicList));
 const mapStateToProps2 = (state) => ({ songs: state?.player?.songs });
 const mapDispatchToProps = (dispatch) => ({ dispatch });
 const DownloadButton = connect(mapStateToProps2, mapDispatchToProps)(
-	({ songs, id, uri, dispatch, title, duration, author, imageURL }) => {
+	({ songs, id, searchTerm, dispatch, title, duration, author, imageURL }) => {
 		const [isDownloading, setIsDownloading] = useState(false)
 		const [isDownloaded, setIsDownloaded] = useState(false)
 
 		const download = async () => {
 			setIsDownloading(true)
 
-			const downloadUrl = api.getDownloadUrl(uri)
+			const downloadUrl = api.getDownloadUrl(searchTerm)
 			const fileUri = FileSystem.documentDirectory + id
 			console.error({downloadUrl, fileUri})
 			const downloadResumable = FileSystem.createDownloadResumable(
