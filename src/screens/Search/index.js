@@ -61,7 +61,7 @@ const Index = ({ songs }) => {
 								</View>
 							} else if (song) {
 								console.error({song})
-								return <Card.MusicList imageURL={song.imageURL} title={song.name} artist={song.artist.name} duration={song.durationSeconds} downloadable playable={false} />
+								return <Card.MusicList id={song.id} imageURL={song.image} title={song.name} artist={song.author} duration={song.durationMillis} downloadable playable={false} uri={song.uri} />
 							} else {
 								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 									<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Paste a SoundCloud URL...</Text>

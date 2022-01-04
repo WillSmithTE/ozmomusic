@@ -4,25 +4,21 @@ export type SearchResult = {
 
 export type Song = {
     id: string,
-    name: string,
-    artist: Artist,
-    imageURL: string,
-    durationSeconds: number,
+    title: string,
+    author: string,
+    image: string,
+    durationMillis: number,
     uri?: string,
-    
 }
 
 export const metadataToSong = (songMetadata: any, uri: string): Song => {
     return {
         id: `${songMetadata.extractor}:${songMetadata.id}`,
-        name: songMetadata.title || songMetadata.fulltitle,
-        artist: {
-            id: `${songMetadata.extractor}:${songMetadata.uploader_id}`,
-            name: songMetadata.uploader
-        },
+        title: songMetadata.title || songMetadata.fulltitle,
+        author: songMetadata.uploader,
         uri,
-        imageURL: songMetadata.thumbnail,
-        durationSeconds: songMetadata.duration,
+        image: songMetadata.thumbnail,
+        durationMillis: songMetadata.duration * 1000,
     }
 }
 

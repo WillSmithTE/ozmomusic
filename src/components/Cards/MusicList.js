@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { connect } from 'react-redux'
 import Icon from '../Icon';
 import * as Modal from '../../widgets/Modals';
-import { millisToMin } from '../../helpers';
+import millisToMin from '../../helpers/millisToMin';
+import { api } from '../../api';
+import { useAssets } from 'expo-asset';
+import { DISPATCHES } from '../../constants';
+import * as FileSystem from 'expo-file-system';
 
-const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Author Name`, duration = '03:22', onPlayPress = () => {}, moreOptions = [] }) => {
+const MusicList = ({
+	id = '',
+	style = {},
+	imageURL,
+	title = 'Song Title',
+	author = `Artist Name`,
+	duration = 132,
+	onPlayPress = () => { },
+	moreOptions = [],
+	downloadable = false,
+	playable = true,
+	songs,
+	uri,
+}) => {
+	console.error({uri})
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
 
 	return (
@@ -38,13 +56,16 @@ const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Autho
 					</View>
 					<Text style={styles.duration}>{millisToMin(duration)}</Text>
 				</View>
-				<View style={styles.right}>
-					<TouchableOpacity onPress={onPlayPress}>
-						<LinearGradient style={styles.playBtn} colors={['#939393', '#000']}>
-							<Icon name="play" color="#C4C4C4" />
-						</LinearGradient>
-					</TouchableOpacity>
-				</View>
+				{playable &&
+					<View style={styles.right}>
+						<TouchableOpacity onPress={onPlayPress}>
+							<Icon family='AntDesign' name="play" color="orange" />
+						</TouchableOpacity>
+					</View>
+				}
+				{downloadable && <DownloadButton songs={songs} uri={uri} id={id} title={title} imageURL={imageURL} duration={duration} author={author}/>}
+
+
 			</TouchableOpacity>
 
 			<Modal.MoreOptions visible={moreOptionsModal} onClose={setMoreOptionsModal} title={title} moreOptions={moreOptions} />
@@ -52,7 +73,82 @@ const MusicList = ({ style = {}, imageURL, title = 'Song Title', author = `Autho
 	);
 };
 
-export default MusicList;
+const mapStateToProps = (state) => ({ songs: state?.player?.songs });
+export default connect(mapStateToProps, null)(memo(MusicList));
+
+const mapStateToProps2 = (state) => ({ songs: state?.player?.songs });
+const mapDispatchToProps = (dispatch) => ({ dispatch });
+const DownloadButton = connect(mapStateToProps2, mapDispatchToProps)(
+	({ songs, id, uri, dispatch, title, duration, author, imageURL }) => {
+		const [isDownloading, setIsDownloading] = useState(false)
+		const [isDownloaded, setIsDownloaded] = useState(false)
+
+		const download = async () => {
+			setIsDownloading(true)
+
+			const downloadUrl = api.getDownloadUrl(uri)
+			const fileUri = FileSystem.documentDirectory + id
+			console.error({downloadUrl, fileUri})
+			const downloadResumable = FileSystem.createDownloadResumable(
+				downloadUrl,
+				fileUri,
+				{},
+				() => { }
+			);
+			try {
+				const { uri } = await downloadResumable.downloadAsync();
+				console.log('Finished downloading to ', uri);
+				dispatch({
+					type: DISPATCHES.NEW_SONG,
+					payload: {
+						newSong: {
+							id,
+							title,
+							author,
+							img: imageURL,
+							uri: fileUri,
+							durationMillis: duration,
+						},
+
+					}
+				})
+			} catch (e) {
+				console.error(e);
+			}
+		}
+
+		useEffect(() => {
+			if (songs.find(({ id: savedSongId }) => id === savedSongId)) {
+				setIsDownloaded(true)
+			} else {
+				setIsDownloaded(false)
+			}
+		}, [songs, id])
+
+		const onClick = () => {
+			if (isDownloaded) {
+				// deleteDownload
+			} else if (isDownloading) {
+				// stopDownloading
+			} else {
+				download()
+			}
+		}
+
+		return <View style={styles.right}>
+			<TouchableOpacity onPress={onClick}>
+				{(() => {
+					if (isDownloaded) {
+						return <Icon family='MaterialCommunityIcons' name="arrow-down-circle" color="orange" />
+					} else if (isDownloading) {
+						return <Icon family='MaterialCommunityIcons' name="stop-circle-outline" color="orange" />
+					} else {
+						return <Icon family='MaterialCommunityIcons' name="arrow-down-circle-outline" color="orange" />
+					}
+				})()}
+			</TouchableOpacity>
+		</View>
+	})
 
 const styles = StyleSheet.create({
 	container: {
