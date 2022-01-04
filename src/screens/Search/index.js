@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,27 +6,31 @@ import { StatusBar } from 'expo-status-bar';
 import { connect } from 'react-redux';
 
 import { Section } from '../../widgets';
-import { Icon } from '../../components';
+import { Card, Icon } from '../../components';
+import { api } from '../../api';
 
 const Index = ({ songs }) => {
 	const { goBack } = useNavigation();
 	const [audios, setAudios] = useState([]);
-	const [search, setSearch] = useState('');
+	const [searchTerm, setSearchTerm] = useState('');
+	const [song, setSong] = useState(undefined)
+	const [error, setError] = useState(undefined)
 
-	const handleInput = (val) => {
-		const value = val.replace('  ', ' ');
-		setSearch(value);
-		if (value.length > 3) {
-			const results = songs.filter((song) => {
-				let regex = new RegExp(value, 'ig');
-				return regex.exec(song?.title) || regex.exec(song?.author);
-			});
-
-			setAudios(results);
-		} else {
-			setAudios([]);
+	const search = () => {
+		setError(undefined)
+		if (searchTerm && searchTerm.length) {
+			api.search(searchTerm).then(
+				(song) => {
+					setSong(song)
+					setError(undefined)
+				},
+				(err) => {
+					setSong(undefined)
+					setError(err)
+				}
+			)
 		}
-	};
+	}
 
 	return (
 		<>
@@ -36,20 +40,34 @@ const Index = ({ songs }) => {
 					<View style={styles.header}>
 						<View style={styles.input}>
 							<Icon name="search" color="#FFF" />
-							<TextInput style={styles.textInput} onChangeText={handleInput} value={search} returnKeyType="search" placeholder="Search..." />
+							<TextInput
+							style={styles.textInput} onChangeText={setSearchTerm} value={searchTerm}
+							 returnKeyType="search" placeholder="Search..." onSubmitEditing={search}
+							 />
 						</View>
-						<TouchableOpacity style={styles.btn} onPress={() => goBack()}>
-							<Text style={styles.btnTxt}>Cancel</Text>
+						<TouchableOpacity style={styles.btn} onPress={() => {
+							setSearchTerm('')
+							Keyboard.dismiss()
+						}}>
+							<Icon name="x" />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.result}>
-						{audios.length > 0 ? (
-							<Section.MusicList audios={audios} />
-						) : (
-							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-								<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Search something...</Text>
-							</View>
-						)}
+						{(() => {
+							if (error) {
+								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+									<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Something went wrong...</Text>
+									<Text style={{ fontSize: 12, color: 'rgba(0, 0, 0, .3)' }}>{error.message}</Text>
+								</View>
+							} else if (song) {
+								console.error({song})
+								return <Card.MusicList imageURL={song.imageURL} title={song.name} artist={song.artist.name} duration={song.durationSeconds} downloadable playable={false} />
+							} else {
+								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+									<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Paste a SoundCloud URL...</Text>
+								</View>
+							}
+						})()}
 					</View>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
