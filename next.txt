@@ -4,3 +4,4 @@
 - get player to use fake api instead of audio uri DONE
 - loading after clicking search
 - handle failed download. (popup message, change icon to not downloaded, don't add song  to songs list)
+- move to AWS for bigger files

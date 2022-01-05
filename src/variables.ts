@@ -8,7 +8,7 @@ const ENV = {
     apiUrl: '',
   },
   prod: {
-    apiUrl: 'https://ozmomusic-be-esia4duwza-ey.a.run.app'
+    apiUrl: 'https://q15zfa6w12.execute-api.us-east-1.amazonaws.com/dev'
   }
 };
 
