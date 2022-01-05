@@ -1,0 +1,6 @@
+- replace search 'cancel' with x icon DONE
+- fake API to return audio objects DONE
+    - what is api going to return? what data format is song? DONE
+- get player to use fake api instead of audio uri DONE
+- loading after clicking search
+- handle failed download. (popup message, change icon to not downloaded, don't add song  to songs list)
