@@ -22,13 +22,13 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "willsmithte.ozmo-tunes",
+			"bundleIdentifier": "willsmithte.ozmotunes",
 			"config": {
 				"googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
 			}
 		},
 		"android": {
-			"package": "willsmithte.ozmo-tunes",
+			"package": "willsmithte.ozmotunes",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
