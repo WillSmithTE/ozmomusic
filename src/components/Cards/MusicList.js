@@ -112,6 +112,7 @@ const DownloadButton = connect(mapStateToProps2, mapDispatchToProps)(
 					}
 				})
 			} catch (e) {
+				setIsDownloading(false)
 				console.error(e);
 			}
 		}
