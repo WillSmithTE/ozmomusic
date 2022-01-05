@@ -26,7 +26,7 @@ const Index = ({
 	onItemPressed = () => {},
 	bottomBtn = {
 		text: 'Source Code',
-		onPress: () => Linking.openURL('https://github.com/jsxclan/musicont'),
+		onPress: () => Linking.openURL('https://github.com/willsmithte/ozmomusic'),
 	},
 	children,
 }) => {
