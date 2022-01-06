@@ -335,13 +335,8 @@ const Index = ({ song, songs, dispatch, route: { params }, navigation: { goBack 
 						</TouchableOpacity>
 						<TouchableOpacity onPress={handlePlayAndPause}>
 							<LinearGradient style={[styles.playAndPauseBtn, !song?.soundObj?.isPlaying && { paddingLeft: 4 }]} colors={['#939393', '#000']}>
-								<Icon name={song?.soundObj?.isPlaying ? `pause` : `play`} color="#C4C4C4" />
+								<Icon name={song?.soundObj?.isPlaying ? `pause` : `play`} color="orange" />
 							</LinearGradient>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.btn} onPress={() => (song?.soundObj?.isPlaying ? handleStop(() => {}) : () => {})} disabled={actions?.stop}>
-							<Animated.View style={{ opacity: stopBtnAnim }}>
-								<Icon family="Ionicons" name="stop-outline" color="#C4C4C4" />
-							</Animated.View>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={handleNext}>
 							<Icon name="skip-forward" color="#C4C4C4" />
