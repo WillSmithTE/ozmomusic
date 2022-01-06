@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -16,18 +16,23 @@ const Index = ({ songs }) => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [song, setSong] = useState(undefined)
 	const [error, setError] = useState(undefined)
+	const [loading, setIsLoading] = useState(false)
 
 	const search = () => {
-		setError(undefined)
 		if (searchTerm && searchTerm.length) {
+			setError(undefined)
+			setIsLoading(true)
+
 			api.search(searchTerm).then(
 				(song) => {
 					setSong(song)
 					setError(undefined)
+					setIsLoading(false)
 				},
 				(err) => {
 					setSong(undefined)
 					setError(err)
+					setIsLoading(false)
 				}
 			)
 		}
@@ -48,9 +53,9 @@ const Index = ({ songs }) => {
 						<View style={styles.input}>
 							<Icon name="search" color="#FFF" />
 							<TextInput
-							style={styles.textInput} onChangeText={setSearchTerm} value={searchTerm}
-							 returnKeyType="search" placeholder="Search..." onSubmitEditing={search}
-							 />
+								style={styles.textInput} onChangeText={setSearchTerm} value={searchTerm}
+								returnKeyType="search" placeholder="Search..." onSubmitEditing={search}
+							/>
 						</View>
 						<TouchableOpacity style={styles.btn} onPress={() => {
 							setSearchTerm('')
@@ -65,6 +70,10 @@ const Index = ({ songs }) => {
 								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 									<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Something went wrong...</Text>
 									<Text style={{ fontSize: 12, color: 'rgba(0, 0, 0, .3)' }}>{error.message}</Text>
+								</View>
+							} else if (loading) {
+								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+									<ActivityIndicator style={{ transform: [{ scale: 4 }] }} color='orange' />
 								</View>
 							} else if (song) {
 								return <Card.MusicList id={song.id} imageURL={song.image} title={song.name} artist={song.author} duration={song.durationMillis} downloadable playable={false} searchTerm={searchTerm} />

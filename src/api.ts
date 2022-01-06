@@ -20,7 +20,8 @@ export const api = {
                 console.debug(`song=${toString(song)}`)
                 return song
             } else {
-                throw new Error(`youtube-dl failed (url=${url})`)
+                console.error(`Search failed (response=${response}`)
+                throw new Error(`Search failed (url=${url})`)
             }
         } catch (e: any) {
             console.error(`error in search - ${e.message}`)

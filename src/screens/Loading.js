@@ -36,7 +36,6 @@ const Loading = ({ songs, dispatch, navigation: { replace } }) => {
 				});
 			}
 
-			await Ads.interstitialAds();
 			resolve();
 		});
 	};
