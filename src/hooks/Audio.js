@@ -34,6 +34,7 @@ export const play =
 	(onPlaybackStatusUpdate = () => {}) => {
 		(async () => {
 			try {
+				console.debug(`About to play (uri=${uri})`)
 				const soundObj = await playbackObject?.loadAsync({ uri }, { shouldPlay });
 				playbackStatusUpdate(playbackObject)(onPlaybackStatusUpdate);
 				next(soundObj);
