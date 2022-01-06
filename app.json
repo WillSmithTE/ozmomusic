@@ -1,11 +1,11 @@
 {
 	"expo": {
-		"name": "Musicont",
-		"description": "React Native & Expo music player application UI",
-		"slug": "musicont",
+		"name": "OZMO Tunes",
+		"description": "Music player",
+		"slug": "ozmo-tunes",
 		"owner": "willsmithte",
 		"version": "1.0.0",
-		"githubUrl": "https://github.com/jsxclan/musicont",
+		"githubUrl": "https://github.com/willsmithte/ozmomusic",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"androidStatusBar": {
@@ -22,13 +22,13 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "jsxclan.musicont",
+			"bundleIdentifier": "willsmithte.ozmotunes",
 			"config": {
 				"googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
 			}
 		},
 		"android": {
-			"package": "jsxclan.musicont",
+			"package": "willsmithte.ozmotunes",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"

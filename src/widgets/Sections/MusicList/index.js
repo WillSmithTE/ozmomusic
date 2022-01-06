@@ -14,7 +14,6 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 	const [playlistModal, setPlaylistModal] = useState(false);
 	const [songIndex, setSongIndex] = useState(0);
 
-	console.error({songs})
 	const setFavourites = async () => {
 		const savedFavs = await Storage.get('favourites', true);
 		if (savedFavs !== null) {

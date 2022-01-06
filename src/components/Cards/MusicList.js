@@ -87,7 +87,7 @@ const DownloadButton = connect(mapStateToProps2, mapDispatchToProps)(
 
 			const downloadUrl = api.getDownloadUrl(searchTerm)
 			const fileUri = FileSystem.documentDirectory + id
-			console.error({downloadUrl, fileUri})
+
 			const downloadResumable = FileSystem.createDownloadResumable(
 				downloadUrl,
 				fileUri,
