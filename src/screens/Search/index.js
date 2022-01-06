@@ -46,7 +46,6 @@ const Index = ({ songs }) => {
 
 	return (
 		<>
-			<StatusBar style="dark" />
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<SafeAreaView style={styles.container}>
 					<View style={styles.header}>
