@@ -22,10 +22,10 @@ const player = (state = playerState, { type = null, payload = {} }) => {
 				},
 			};
 
-		case DISPATCHES.NEW_SONG:
+		case DISPATCHES.NEW_SONGS:
 			return {
 				...state,
-				songs: state.songs.concat(payload.newSong)
+				songs: payload.newSongs.concat(state.songs)
 			};
 
 		default:

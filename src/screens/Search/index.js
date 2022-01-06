@@ -75,7 +75,7 @@ const Index = ({ songs }) => {
 									<ActivityIndicator style={{ transform: [{ scale: 4 }] }} color='orange' />
 								</View>
 							} else if (song) {
-								return <Card.MusicList id={song.id} imageURL={song.image} title={song.name} artist={song.author} duration={song.durationMillis} downloadable playable={false} searchTerm={searchTerm} />
+								return <Card.MusicList id={song.id} imageURL={song.image} title={song.title} author={song.author} duration={song.durationMillis} downloadable playable={false} searchTerm={searchTerm} />
 							} else {
 								return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 									<Text style={{ fontSize: 24, fontWeight: 'bold', color: 'rgba(0, 0, 0, .3)' }}>Paste a SoundCloud URL...</Text>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginTop: 30,
+		marginTop: 5,
 		marginBottom: 15,
 		marginHorizontal: 20,
 	},

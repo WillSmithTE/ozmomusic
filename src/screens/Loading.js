@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { DISPATCHES, SCREENS } from '../constants';
 import { Storage } from '../helpers';
 import { Ads } from '../components';
+import { getSongs } from '../helpers/songStorage';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -35,6 +36,14 @@ const Loading = ({ songs, dispatch, navigation: { replace } }) => {
 					},
 				});
 			}
+
+			const savedSongs  = await getSongs()
+			dispatch({
+				type: DISPATCHES.NEW_SONGS,
+				payload: {
+					newSongs: savedSongs,
+				},
+			});
 
 			resolve();
 		});

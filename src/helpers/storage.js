@@ -8,6 +8,10 @@ export const store = async (key, value, isJSON = false) => {
 	}
 };
 
+export const storeJson = async (key, value) => {
+	return store(key, value, true)
+};
+
 export const get = async (key, isJSON = false) => {
 	try {
 		const value = await AsyncStorage.getItem(`@${key}`);
@@ -15,6 +19,10 @@ export const get = async (key, isJSON = false) => {
 	} catch (e) {
 		console.log(`[AsyncStorage Error][get]: ${e?.message}`);
 	}
+};
+
+export const getJson = async (key) => {
+	return get(key, true)
 };
 
 export const remove = async (key) => {

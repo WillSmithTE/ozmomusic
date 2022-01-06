@@ -128,7 +128,6 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 						);
 				  })}
 
-			<Modal.Playlist visible={playlistModal} onClose={setPlaylistModal} songIndex={songIndex} />
 		</ScrollView>
 	);
 };
