@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import { useAssets } from 'expo-asset';
 import { connect } from 'react-redux';
 
@@ -50,7 +50,11 @@ const Loading = ({ songs, dispatch, navigation: { replace } }) => {
 		init();
 	}, []);
 
-	return <Image style={styles.img} source={require('../../assets/splash.png')} resizeMode="cover" />;
+	return <Image style={styles.img} source={require('../../assets/splash.png')} resizeMode="cover" />
+	// return <>
+	// 	<Image style={styles.img} source={require('../../assets/splash.png')} resizeMode="cover" />
+	// 	<ActivityIndicator style={{position: 'absolute', bottom: '5px',   left: '50%', margin: '0 auto'}}/>
+	// </>
 };
 
 const mapStateToProps = (state) => ({ songs: state?.player?.songs });

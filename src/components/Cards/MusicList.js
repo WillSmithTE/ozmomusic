@@ -22,10 +22,8 @@ const MusicList = ({
 	downloadable = false,
 	playable = true,
 	songs,
-	uri,
 	searchTerm,
 }) => {
-	console.error({uri})
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
 
 	return (
@@ -114,6 +112,7 @@ const DownloadButton = connect(mapStateToProps2, mapDispatchToProps)(
 					}
 				})
 			} catch (e) {
+				setIsDownloading(false)
 				console.error(e);
 			}
 		}
