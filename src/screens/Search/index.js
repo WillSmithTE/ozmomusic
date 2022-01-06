@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { Section } from '../../widgets';
 import { Card, Icon } from '../../components';
 import { api } from '../../api';
+import { useDebouncedEffect } from '../../hooks/useDebouncedEffect';
 
 const Index = ({ songs }) => {
 	const { goBack } = useNavigation();
@@ -31,6 +32,12 @@ const Index = ({ songs }) => {
 			)
 		}
 	}
+
+	useDebouncedEffect(
+		search,
+		[searchTerm],
+		2000,
+	)
 
 	return (
 		<>
