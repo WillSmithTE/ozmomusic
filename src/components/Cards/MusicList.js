@@ -10,6 +10,7 @@ import { useAssets } from 'expo-asset';
 import { DISPATCHES } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 import { DownloadButton } from './DownloadButton';
+import { DeleteDownloadButton } from './DeleteDownloadButton';
 
 const MusicList = ({
 	id = '',
@@ -24,6 +25,7 @@ const MusicList = ({
 	playable = true,
 	songs,
 	searchTerm,
+	uri,
 }) => {
 	const [moreOptionsModal, setMoreOptionsModal] = useState(false);
 
@@ -56,7 +58,7 @@ const MusicList = ({
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 						<Text style={styles.duration}>{millisToMin(duration)}</Text>
-						{/* <DownloadButton */}
+						{!isSearchPage && <DeleteDownloadButton id={id} uri={uri} />}
 					</View>
 				</View>
 				{playable &&

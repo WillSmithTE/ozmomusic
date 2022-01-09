@@ -9,12 +9,13 @@ import { Storage } from '../../../helpers';
 import * as Modal from '../../Modals';
 import { toString } from '../../../util';
 
-const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, useIndex = false }) => {
+const Index = ({ songs, dispatch, style = {}, indicator = true, useIndex = false }) => {
 	const { navigate } = useNavigation();
 	const [favs, setFavs] = useState([]);
 	const [playlistModal, setPlaylistModal] = useState(false);
 	const [songIndex, setSongIndex] = useState(0);
 
+	console.error({songs: toString(songs)})
 	const setFavourites = async () => {
 		const savedFavs = await Storage.get('favourites', true);
 		if (savedFavs !== null) {
@@ -69,19 +70,52 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 			showsVerticalScrollIndicator={indicator}
 		>
 			{useIndex
-				? audios.map((index, key) => (
+				? songs.map((index, key) => (
+					<Card.MusicList
+						key={key}
+						id={songs[index]?.id}
+						imageURL={songs[index]?.img}
+						title={songs[index]?.title}
+						author={songs[index]?.author}
+						duration={songs[index]?.durationMillis}
+						uri={songs[index]?.uri}
+						onPlayPress={() => onPlayPress(songs[index], index)}
+						moreOptions={[
+							{
+								text: 'Play',
+								onPress: () => onPlayPress(songs[index], index),
+							},
+							{
+								text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
+								onPress: () => handleAddToFavourite(index),
+							},
+							{
+								text: 'Add to playlist',
+								onPress: () => {
+									setPlaylistModal(true);
+									setSongIndex(index);
+								},
+							},
+						]}
+					/>
+				))
+				: songs.map((song, key) => {
+					const index = songs.findIndex((i) => i?.id === song?.id);
+
+					return (
 						<Card.MusicList
 							key={key}
-							imageURL={songs[index]?.img}
-							title={songs[index]?.title}
-							author={songs[index]?.author}
-							duration={songs[index]?.durationMillis}
-							uri={songs[index]?.uri}
-							onPlayPress={() => onPlayPress(songs[index], index)}
+							id={song?.id}
+							imageURL={song?.img}
+							title={song?.title}
+							author={song?.author}
+							uri={song?.uri}
+							duration={song?.durationMillis}
+							onPlayPress={() => onPlayPress(song, index)}
 							moreOptions={[
 								{
 									text: 'Play',
-									onPress: () => onPlayPress(songs[index], index),
+									onPress: () => onPlayPress(song, index),
 								},
 								{
 									text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
@@ -96,39 +130,8 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 								},
 							]}
 						/>
-				  ))
-				: audios.map((song, key) => {
-						const index = songs.findIndex((i) => i?.id === song?.id);
-
-						return (
-							<Card.MusicList
-								key={key}
-								imageURL={song?.img}
-								title={song?.title}
-								author={song?.author}
-								uri={song?.uri}
-								duration={song?.durationMillis}
-								onPlayPress={() => onPlayPress(song, index)}
-								moreOptions={[
-									{
-										text: 'Play',
-										onPress: () => onPlayPress(song, index),
-									},
-									{
-										text: favs.includes(index) ? 'Remove from favorite' : 'Add to favorite',
-										onPress: () => handleAddToFavourite(index),
-									},
-									{
-										text: 'Add to playlist',
-										onPress: () => {
-											setPlaylistModal(true);
-											setSongIndex(index);
-										},
-									},
-								]}
-							/>
-						);
-				  })}
+					);
+				})}
 
 		</ScrollView>
 	);

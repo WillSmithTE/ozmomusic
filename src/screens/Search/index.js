@@ -41,7 +41,7 @@ const Index = ({ songs }) => {
 	useDebouncedEffect(
 		search,
 		[searchTerm],
-		2000,
+		1000,
 	)
 
 	return (

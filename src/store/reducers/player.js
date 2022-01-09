@@ -25,14 +25,24 @@ const player = (state = playerState, { type = null, payload = {} }) => {
 
 		case DISPATCHES.NEW_SONGS:
 			console.info(`DISPATCHES.NEW_SONGS (newSongs=${toString(payload.newSongs)})`)
-			console.info(`newStateSongs=${toString({
-				...state,
-				songs: payload.newSongs.concat(state.songs)
-			}.songs)}`)
 			return {
 				...state,
 				songs: payload.newSongs.concat(state.songs)
 			};
+
+		case DISPATCHES.DELETE_SONG:
+			const songIndex = state.songs.findIndex(({ id: savedSongId }) => savedSongId === payload.songId)
+			console.log({ songIndex, songs: state.songs })
+			if (songIndex === -1) {
+				console.error(`Something went wrong, tried to delete song (id=${id}) but not found in redux state (songs=${state.songs})`)
+				return state
+			}
+			const newSongs = [...state.songs]
+			newSongs.splice(songIndex, 1)
+			return {
+				...state,
+				songs: newSongs,
+			}
 
 		default:
 			return state;

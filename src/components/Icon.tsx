@@ -58,3 +58,5 @@ const Icon = ({ family = 'Feather', name = 'home', size = 24, color = '#000', pr
 );
 
 export default Icon;
+
+export const DownloadedIcon = (props: object) => <Icon family='MaterialCommunityIcons' name="arrow-down-circle" color="orange" props={props}/>

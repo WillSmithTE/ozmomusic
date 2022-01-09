@@ -2,7 +2,7 @@ import React, { useEffect, useState, memo } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux'
-import Icon from '../Icon';
+import Icon, { DownloadedIcon } from '../Icon';
 import * as Modal from '../../widgets/Modals';
 import millisToMin from '../../helpers/millisToMin';
 import { api } from '../../api';
@@ -11,6 +11,7 @@ import { DISPATCHES, SONG_LIST_KEY } from '../../constants';
 import * as FileSystem from 'expo-file-system';
 import { getJson, storeJson } from '../../helpers/storage';
 import { saveSong } from '../../helpers/songStorage';
+import { toString } from '../../util';
 
 const mapStateToProps = (state) => ({ songs: state?.player?.songs });
 const mapDispatchToProps = (dispatch) => ({ dispatch });
@@ -62,8 +63,10 @@ export const DownloadButton = connect(mapStateToProps, mapDispatchToProps)(
 		}
 
 		useEffect(() => {
+			console.log(`in useEFfect donwloadbutton (id=${id}, songs=${toString(songs)})`)
 			if (songs.find(({ id: savedSongId }) => id === savedSongId)) {
 				setIsDownloaded(true)
+				setIsDownloading(false)
 			} else {
 				setIsDownloaded(false)
 			}
@@ -71,6 +74,7 @@ export const DownloadButton = connect(mapStateToProps, mapDispatchToProps)(
 
 		const onClick = () => {
 			if (isDownloaded) {
+				console.info('deleting download')
 				// deleteDownload
 			} else if (isDownloading) {
 				// stopDownloading
@@ -83,7 +87,7 @@ export const DownloadButton = connect(mapStateToProps, mapDispatchToProps)(
 			<TouchableOpacity onPress={onClick}>
 				{(() => {
 					if (isDownloaded) {
-						return <Icon family='MaterialCommunityIcons' name="arrow-down-circle" color="orange" />
+						return <DownloadedIcon/>
 					} else if (isDownloading) {
 						return <Icon family='MaterialCommunityIcons' name="stop-circle-outline" color="orange" />
 					} else {

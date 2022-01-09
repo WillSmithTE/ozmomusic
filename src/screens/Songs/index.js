@@ -13,7 +13,7 @@ const Index = ({ songs }) => {
 
 	return (<>
 		<View style={styles.sections}>
-			<Section.MusicList audios={songs} indicator={false} />
+			<Section.MusicList indicator={false} />
 		</View>
 	</>
 	);
