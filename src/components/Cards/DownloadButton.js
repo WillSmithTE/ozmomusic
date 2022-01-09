@@ -34,23 +34,27 @@ export const DownloadButton = connect(mapStateToProps, mapDispatchToProps)(
 			);
 			try {
 				const { uri, status } = await downloadResumable.downloadAsync();
-				console.log(`Finished downloading (uri=${uri}, status=${status}`);
-				const newSong = {
-					id,
-					title,
-					author,
-					img: imageURL,
-					uri,
-					durationMillis: duration,
-				}
-				await saveSong(newSong)
-				dispatch({
-					type: DISPATCHES.NEW_SONGS,
-					payload: {
-						newSongs: [newSong]
-
+				console.log(`Finished downloading (uri=${uri}, status=${status})`);
+				if (status >= 200 || status < 300) {
+					const newSong = {
+						id,
+						title,
+						author,
+						img: imageURL,
+						uri,
+						durationMillis: duration,
 					}
-				})
+					await saveSong(newSong)
+					dispatch({
+						type: DISPATCHES.NEW_SONGS,
+						payload: {
+							newSongs: [newSong]
+
+						}
+					})
+				} else {
+					throw new Error(`error downloading (uri=${uri})`)
+				}
 			} catch (e) {
 				setIsDownloading(false)
 				console.error(e);

@@ -20,7 +20,7 @@ const MusicList = ({
 	duration = 132,
 	onPlayPress = () => { },
 	moreOptions = [],
-	downloadable = false,
+	isSearchPage = false,
 	playable = true,
 	songs,
 	searchTerm,
@@ -54,7 +54,10 @@ const MusicList = ({
 						</Text>
 						<Text style={styles.author}>{author}</Text>
 					</View>
-					<Text style={styles.duration}>{millisToMin(duration)}</Text>
+					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+						<Text style={styles.duration}>{millisToMin(duration)}</Text>
+						{/* <DownloadButton */}
+					</View>
 				</View>
 				{playable &&
 					<View style={styles.right}>
@@ -63,7 +66,7 @@ const MusicList = ({
 						</TouchableOpacity>
 					</View>
 				}
-				{downloadable && <DownloadButton songs={songs} searchTerm={searchTerm} id={id} title={title} imageURL={imageURL} duration={duration} author={author}/>}
+				{isSearchPage && <DownloadButton songs={songs} searchTerm={searchTerm} id={id} title={title} imageURL={imageURL} duration={duration} author={author} />}
 
 
 			</TouchableOpacity>
