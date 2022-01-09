@@ -33,14 +33,14 @@ export const DownloadButton = connect(mapStateToProps, mapDispatchToProps)(
 				() => { }
 			);
 			try {
-				const { uri } = await downloadResumable.downloadAsync();
-				console.log('Finished downloading to ', uri);
+				const { uri, status } = await downloadResumable.downloadAsync();
+				console.log(`Finished downloading (uri=${uri}, status=${status}`);
 				const newSong = {
 					id,
 					title,
 					author,
 					img: imageURL,
-					uri: fileUri,
+					uri,
 					durationMillis: duration,
 				}
 				await saveSong(newSong)

@@ -7,6 +7,7 @@ import { Card } from '../../../components';
 import { DISPATCHES, SCREENS } from '../../../constants';
 import { Storage } from '../../../helpers';
 import * as Modal from '../../Modals';
+import { toString } from '../../../util';
 
 const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, useIndex = false }) => {
 	const { navigate } = useNavigation();
@@ -46,6 +47,7 @@ const Index = ({ songs, dispatch, style = {}, audios = [], indicator = true, use
 	};
 
 	const onPlayPress = (song, index) => {
+		console.info(`Play pressed (song=${toString(song)}, index=${index})`)
 		navigate(SCREENS.PLAYING, {
 			forcePlay: true,
 			song,

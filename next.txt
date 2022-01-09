@@ -6,3 +6,4 @@
 - handle failed download. (popup message, change icon to not downloaded, don't add song  to songs list)
 - move to AWS for bigger files DONE
 - on search,  save the image and actually get the name for song and artist
+- delete download button

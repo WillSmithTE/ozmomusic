@@ -2,7 +2,8 @@ import Constants from 'expo-constants';
 
 const ENV = {
   dev: {
-    apiUrl: "http://192.168.0.5:5000",
+    // apiUrl: "http://192.168.0.5:5000",
+    apiUrl: 'https://q15zfa6w12.execute-api.us-east-1.amazonaws.com/dev'
   },
   staging: {
     apiUrl: '',

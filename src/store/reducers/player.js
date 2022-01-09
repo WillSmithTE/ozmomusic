@@ -1,5 +1,6 @@
 import { player as playerState } from '../states';
 import { DISPATCHES } from '../../constants';
+import { toString } from '../../util';
 
 const player = (state = playerState, { type = null, payload = {} }) => {
 	switch (type) {
@@ -23,6 +24,11 @@ const player = (state = playerState, { type = null, payload = {} }) => {
 			};
 
 		case DISPATCHES.NEW_SONGS:
+			console.info(`DISPATCHES.NEW_SONGS (newSongs=${toString(payload.newSongs)})`)
+			console.info(`newStateSongs=${toString({
+				...state,
+				songs: payload.newSongs.concat(state.songs)
+			}.songs)}`)
 			return {
 				...state,
 				songs: payload.newSongs.concat(state.songs)
